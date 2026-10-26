@@ -1,0 +1,25 @@
+# AI Toll and Lease Monitoring System dependencies
+
+# Core AI & computer vision
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+easyocr>=1.7.0
+
+# Database drivers
+mysql-connector-python>=8.2.0
+
+# Web server and API
+Flask>=3.0.0
+Flask-Cors>=4.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Imaging and numeric processing
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Setup notes:
+# 1. python -m venv venv && source venv/bin/activate
+# 2. pip install -r requirements.txt
+# 3. Create .env from .env.example
+# 4. python python/server.py

@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GatePulse AI — Smart Access & ANPR Vision</title>
+  <meta name="description"
+    content="GatePulse AI — Enterprise AI-powered vehicle detection, automatic number plate recognition (ANPR), and smart access monitoring platform." />
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Custom Theme -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- Sidebar navigation -->
+    <nav id="sidebar">
+
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <div class="brand-icon" id="sidebar-brand-icon">🚘</div>
+        <div class="brand-text">
+          <h5 id="sidebar-brand-name">GatePulse AI</h5>
+          <span id="sidebar-brand-sub">Smart Access & ANPR</span>
+        </div>
+      </div>
+
+      <!-- Main Nav -->
+      <span class="sidebar-section-label">Main</span>
+      <ul class="nav-menu">
+        <li>
+          <a class="nav-link active" data-section="dashboard" href="#dashboard">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="live-feed" href="#live-feed">
+            <i class="bi bi-camera-video-fill"></i>
+            <span>Gate Cameras</span>
+            <span class="badge-pill">LIVE</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="detection" href="#detection">
+            <i class="bi bi-card-checklist"></i>
+            <span>Parking Movement Log</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="rates" href="#rates" id="nav-rates-link">
+            <i class="bi bi-cash-coin text-warning"></i>
+            <span>Toll & Tariff Rates</span>
+            <span class="badge-pill rates-nav-badge" id="rates-nav-badge"
+              style="background:#f59e0b; color:#0f172a; font-weight:700;">MANUAL</span>
+          </a>
+        </li>
+      </ul>
+
+      <hr class="divider mx-3" />
+
+      <!-- Analytics -->
+      <span class="sidebar-section-label">Analytics & Alerts</span>
+      <ul class="nav-menu">
+        <li>
+          <a class="nav-link" data-section="analytics" href="#analytics">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Parking Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="fraud" href="#fraud">
+            <i class="bi bi-shield-exclamation"></i>
+            <span>Overstay Alerts</span>
+            <span class="badge-pill" style="background:#ef4444; color:#fff;">!</span>
+          </a>
+        </li>
+      </ul>
+
+      <hr class="divider mx-3" />
+
+      <!-- AI Models & Lab -->
+      <span class="sidebar-section-label">AI & Automation</span>
+      <ul class="nav-menu">
+        <li>
+          <a class="nav-link" data-section="inspector" href="#inspector">
+            <i class="bi bi-camera-reels-fill text-primary-c"></i>
+            <span>Video Inspector</span>
+            <span class="badge-pill" style="background:#2563eb; color:#fff;">TEST</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="ocr-lab" href="#ocr-lab">
+            <i class="bi bi-card-heading text-success-c"></i>
+            <span>ANPR Plate Lab</span>
+            <span class="badge-pill" style="background:#059669; color:#fff;">OCR</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-section="reports" href="#reports">
+            <i class="bi bi-file-earmark-bar-graph-fill"></i>
+            <span>Parking Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer" style="flex-direction:column; align-items:stretch; gap:8px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="user-avatar" id="sidebar-avatar">A</div>
+          <div class="user-info" style="flex:1; min-width:0;">
+            <h6 id="sidebar-user-name"
+              style="margin:0; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Admin
+              Officer</h6>
+            <small id="sidebar-user-email"
+              style="color:var(--text-secondary); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;">—</small>
+          </div>
+          <button class="btn btn-sm btn-outline-danger" id="logout-btn" title="Sign Out"
+            style="padding: 4px 8px; border-radius: 6px; font-size: 13px; line-height:1;">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Facility Profile Settings Trigger -->
+        <button class="btn btn-sm w-100 d-flex align-items-center justify-content-center gap-2"
+          onclick="App.openFacilityModal()"
+          style="background:rgba(59,130,246,0.12); color:#60a5fa; border:1px solid rgba(59,130,246,0.25); border-radius:8px; font-size:12px; font-weight:600; padding:6px 10px; transition:all 0.2s;">
+          <i class="bi bi-buildings-fill text-primary-c"></i>
+          <span>Facility Profile</span>
+        </button>
+
+      </div>
+    </nav>
+
+    <!-- Main content wrapper -->
+    <div id="main-content">
+
+      <!-- Top Header -->
+      <header id="topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn-icon d-lg-none" id="mobile-menu-btn">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-left">
+            <div class="d-flex align-items-center gap-2">
+              <h4 id="topbar-title">Overview Dashboard</h4>
+              <span class="facility-tag-pill mode-badge-free" id="topbar-mode-badge" onclick="App.openFacilityModal()"
+                title="Click to change Facility Profile or Operation Mode">
+                <span class="status-dot-radar"></span>
+                <span id="topbar-mode-text">Free Security Mode</span>
+              </span>
+            </div>
+            <span id="topbar-subtitle">Smart AI Vehicle Management & Monitoring System</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="system-status">
+            <div class="status-dot"></div>
+            System Online
+          </div>
+          <div class="topbar-clock" id="live-clock">--:--:-- --</div>
+          <div class="btn-icon" title="Notifications">
+            <i class="bi bi-bell"></i>
+            <div class="notif-dot"></div>
+          </div>
+          <div class="btn-icon" id="topbar-facility-btn" onclick="App.openFacilityModal()"
+            title="Facility Profile & Business Settings" style="cursor:pointer;">
+            <i class="bi bi-gear"></i>
+          </div>
+          <div class="d-flex align-items-center gap-2 ms-2 ps-2 border-start border-secondary">
+            <span class="d-none d-md-inline" style="font-size:12px; color:var(--text-secondary); font-weight:500;"
+              id="topbar-user-email"></span>
+            <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1" id="topbar-logout-btn"
+              title="Sign Out" style="padding: 4px 10px; font-size: 12px; border-radius: 6px;">
+              <i class="bi bi-box-arrow-right"></i>
+              <span class="d-none d-sm-inline">Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+
+        <!-- Section: Overview dashboard -->
+        <section id="section-dashboard" class="page-section active">
+
+          <!-- Stats Cards -->
+          <div class="section-title">
+            <h5><i class="bi bi-speedometer2"></i> Today's Overview</h5>
+            <small class="text-muted-c">
+              <i class="bi bi-clock"></i>&nbsp;
+              <span id="today-date"></span>
+            </small>
+          </div>
+
+          <div class="row" id="stat-cards-row">
+            <!-- Rendered by dashboard.js -->
+          </div>
+
+          <!-- Camera Preview + Quick Stats -->
+          <div class="row mt-2">
+            <!-- Camera Previews -->
+            <div class="col-xl-8 col-lg-7 mb-4">
+              <div class="glass-card">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-camera-video-fill text-danger-c"></i> Live Camera Monitoring</h6>
+                  <a href="#live-feed" class="nav-link text-primary-c" data-section="live-feed"
+                    style="font-size:12px;padding:0;">
+                    View All <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+                <div class="card-body-custom">
+                  <div class="row g-3">
+                    <!-- Camera 1 -->
+                    <div class="col-6">
+                      <div class="camera-feed">
+                        <img
+                          src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=800"
+                          alt="Camera 1 Feed" id="cam1-img" />
+                        <div class="camera-overlay">
+                          <div class="camera-hud-top">
+                            <span class="cam-badge live">
+                              <span class="cam-live-dot"></span> LIVE
+                            </span>
+                            <select class="cam-select" id="dash-cam1-select"
+                              onchange="App.onCameraSelectChange(1, this.value, true)"
+                              style="font-size:10px !important; padding:2px 22px 2px 6px !important; height:24px;"></select>
+                          </div>
+                          <div id="cam1-overlay" style="position:absolute;inset:0;"></div>
+                          <div class="camera-hud-bottom">
+                            <div>
+                              <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:2px;">PLATE DETECTED
+                              </div>
+                              <div style="font-size:11px;font-weight:700;color:#fff;font-family:monospace;"
+                                id="cam1-plate">—</div>
+                            </div>
+                            <div style="text-align:right;">
+                              <div style="font-size:9px;color:rgba(255,255,255,0.5);" id="cam1-type">TYPE</div>
+                              <div style="font-size:10px;color:#22c55e;font-weight:600;" id="cam1-conf">—</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Camera 2 -->
+                    <div class="col-6">
+                      <div class="camera-feed">
+                        <img
+                          src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=800"
+                          alt="Camera 2 Feed" id="cam2-img" />
+                        <div class="camera-overlay">
+                          <div class="camera-hud-top">
+                            <span class="cam-badge live">
+                              <span class="cam-live-dot"></span> LIVE
+                            </span>
+                            <select class="cam-select" id="dash-cam2-select"
+                              onchange="App.onCameraSelectChange(2, this.value, true)"
+                              style="font-size:10px !important; padding:2px 22px 2px 6px !important; height:24px;"></select>
+                          </div>
+                          <div id="cam2-overlay" style="position:absolute;inset:0;"></div>
+                          <div class="camera-hud-bottom">
+                            <div>
+                              <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:2px;">PLATE DETECTED
+                              </div>
+                              <div style="font-size:11px;font-weight:700;color:#fff;font-family:monospace;"
+                                id="cam2-plate">—</div>
+                            </div>
+                            <div style="text-align:right;">
+                              <div style="font-size:9px;color:rgba(255,255,255,0.5);" id="cam2-type">TYPE</div>
+                              <div style="font-size:10px;color:#22c55e;font-weight:600;" id="cam2-conf">—</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Revenue Doughnut -->
+            <div class="col-xl-4 col-lg-5 mb-4">
+              <div class="glass-card h-100">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-pie-chart-fill text-primary-c"></i> Vehicle Distribution</h6>
+                </div>
+                <div class="card-body-custom">
+                  <canvas id="chartDistribution" height="240"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overstay Alert Banner (mini) -->
+          <div class="fraud-alert-banner mb-4" style="cursor:pointer;" onclick="App.navigateTo('fraud')">
+            <div class="alert-icon">⏱️</div>
+            <div>
+              <h5 style="font-size:14px;">Parking Overstay Alert — Click to View Details</h5>
+              <p style="font-size:12px;">Active vehicles detected with stay duration exceeding standard limits.
+                Immediate bay tracking active.</p>
+            </div>
+            <i class="bi bi-arrow-right-circle ms-auto" style="font-size:20px;color:#f87171;"></i>
+          </div>
+
+          <!-- Recent Detection Preview -->
+          <div class="glass-card">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-activity"></i> Recent Parking Movements</h6>
+              <span id="live-count-badge"
+                style="font-size:11px;color:var(--success);background:rgba(16,185,129,0.1);padding:3px 10px;border-radius:12px;border:1px solid rgba(16,185,129,0.2);">
+                0 logged today
+              </span>
+            </div>
+            <div class="card-body-custom p-0">
+              <div class="detection-table-wrapper" style="max-height:320px;overflow-y:auto;">
+                <table class="detection-table">
+                  <thead>
+                    <tr>
+                      <th>Photo</th>
+                      <th>Type</th>
+                      <th>Number Plate</th>
+                      <th>Entry Time</th>
+                      <th>Exit Time</th>
+                      <th>Stay Duration</th>
+                      <th>Bay / Slot</th>
+                      <th>Status</th>
+                      <th class="fee-col">Fee / Tariff</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detection-tbody">
+                    <!-- Rendered by detection-table.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Live camera feed -->
+        <section id="section-live-feed" class="page-section">
+
+          <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-3 pb-3 mb-3"
+            style="border-bottom: 1px solid var(--border);">
+            <div class="d-flex align-items-center flex-wrap gap-2">
+              <h5 class="mb-0"><i class="bi bi-camera-video-fill text-danger-c"></i> Live Camera Monitoring</h5>
+              <span class="badge"
+                style="background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); font-size:11px; font-weight:600; padding: 5px 10px;">
+                <span class="cam-live-dot d-inline-block me-1" style="width:7px; height:7px;"></span> 14 Cameras Online
+                (NVR Connected)
+              </span>
+            </div>
+
+            <!-- View Mode Switcher & AI Camera Selector -->
+            <div class="d-flex align-items-center flex-wrap gap-2">
+              <button class="view-btn" id="btn-ai-cams-modal" onclick="App.openAiCameraModal()"
+                style="background: rgba(168,85,247,0.18); color: #c084fc; border: 1px solid rgba(168,85,247,0.4); font-weight:600;"
+                title="Select which cameras run YOLO AI detection">
+                <i class="bi bi-cpu-fill text-warning"></i> AI Cameras: <span id="ai-active-count-badge"
+                  class="badge bg-purple ms-1" style="background:#a855f7; font-size:10px;">2</span>/14
+              </button>
+              <div class="view-btn-group">
+                <button class="view-btn active" id="btn-view-dual" onclick="App.setCameraView('dual')"
+                  title="Focus on 2 selectable cameras">
+                  <i class="bi bi-layout-split"></i> Dual View
+                </button>
+                <button class="view-btn" id="btn-view-quad" onclick="App.setCameraView('quad')"
+                  title="View 4 cameras in 2x2 grid">
+                  <i class="bi bi-grid-fill"></i> Quad View (2x2)
+                </button>
+                <button class="view-btn" id="btn-view-all14" onclick="App.setCameraView('all14')"
+                  title="View all 14 NVR channels">
+                  <i class="bi bi-grid-3x3-gap-fill"></i> All 14 Grid
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dual focus view (2 cameras with selectors) -->
+          <div id="container-dual-view" class="row g-4">
+            <!-- Camera Slot 1 -->
+            <div class="col-lg-6">
+              <div class="glass-card">
+                <div class="card-header-custom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-camera-video text-danger-c"></i>
+                    <span class="text-muted-c" style="font-size:12px; font-weight:600;">Slot 1:</span>
+                    <select class="cam-select" id="slot1-cam-select"
+                      onchange="App.onCameraSelectChange(1, this.value)"></select>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge-ai-active" id="cam1f-ai-badge"><i class="bi bi-cpu-fill"></i> AI ACTIVE</span>
+                    <span class="cam-badge live"><span class="cam-live-dot"></span> LIVE</span>
+                  </div>
+                </div>
+                <div class="card-body-custom">
+                  <div class="camera-feed" style="aspect-ratio:16/9;">
+                    <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=800"
+                      alt="Camera 1" id="cam1f-img" />
+                    <div class="camera-overlay">
+                      <div id="cam1f-overlay" style="position:absolute;inset:0;"></div>
+                      <div class="camera-hud-bottom">
+                        <div>
+                          <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:2px;">DETECTED PLATE</div>
+                          <div style="font-size:13px;font-weight:700;color:#fff;font-family:monospace;"
+                            id="cam1f-plate">—</div>
+                        </div>
+                        <div style="text-align:right;">
+                          <div style="font-size:10px;color:#22c55e;font-weight:600;" id="cam1f-type">—</div>
+                          <div style="font-size:11px;font-weight:700;color:#22c55e;" id="cam1f-conf">—</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Camera Stats -->
+                  <div class="row g-2 mt-3">
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value text-primary-c" id="cam1-today-count">0</div>
+                        <div class="s-label">Entries</div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value text-success-c" id="cam1-revenue">0</div>
+                        <div class="s-label">Exits</div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value" style="color:#fbbf24;" id="cam1-alerts">0</div>
+                        <div class="s-label">Alerts</div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Browser Webcam control -->
+                  <div class="d-flex justify-content-between align-items-center mt-3 pt-2"
+                    style="border-top: 1px solid var(--border);">
+                    <button class="export-btn btn-webcam-toggle" id="webcam-btn-1"
+                      onclick="WebcamModule.toggleWebcam(1)"
+                      style="font-size:12px; padding:6px 12px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25);">
+                      <i class="bi bi-camera-video-fill"></i> Start Browser Webcam
+                    </button>
+                    <span class="text-muted-c" id="webcam-status-1" style="font-size:11px;">Inactive</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Camera Slot 2 -->
+            <div class="col-lg-6">
+              <div class="glass-card">
+                <div class="card-header-custom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-camera-video text-danger-c"></i>
+                    <span class="text-muted-c" style="font-size:12px; font-weight:600;">Slot 2:</span>
+                    <select class="cam-select" id="slot2-cam-select"
+                      onchange="App.onCameraSelectChange(2, this.value)"></select>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge" id="cam2f-ai-badge"
+                      style="background:rgba(255,255,255,0.06); color:var(--text-muted); font-size:10px; border:1px solid var(--border);"><i
+                        class="bi bi-broadcast"></i> NVR STREAM</span>
+                    <span class="cam-badge live"><span class="cam-live-dot"></span> LIVE</span>
+                  </div>
+                </div>
+                <div class="card-body-custom">
+                  <div class="camera-feed" style="aspect-ratio:16/9;">
+                    <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=800"
+                      alt="Camera 2" id="cam2f-img" />
+                    <div class="camera-overlay">
+                      <div id="cam2f-overlay" style="position:absolute;inset:0;"></div>
+                      <div class="camera-hud-bottom">
+                        <div>
+                          <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:2px;">DETECTED PLATE</div>
+                          <div style="font-size:13px;font-weight:700;color:#fff;font-family:monospace;"
+                            id="cam2f-plate">—</div>
+                        </div>
+                        <div style="text-align:right;">
+                          <div style="font-size:10px;color:#22c55e;font-weight:600;" id="cam2f-type">—</div>
+                          <div style="font-size:11px;font-weight:700;color:#22c55e;" id="cam2f-conf">—</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Camera Stats -->
+                  <div class="row g-2 mt-3">
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value text-primary-c" id="cam2-today-count">0</div>
+                        <div class="s-label">Entries</div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value text-success-c" id="cam2-revenue">0</div>
+                        <div class="s-label">Exits</div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="summary-stat">
+                        <div class="s-value" style="color:#fbbf24;" id="cam2-alerts">0</div>
+                        <div class="s-label">Alerts</div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Browser Webcam control -->
+                  <div class="d-flex justify-content-between align-items-center mt-3 pt-2"
+                    style="border-top: 1px solid var(--border);">
+                    <button class="export-btn btn-webcam-toggle" id="webcam-btn-2"
+                      onclick="WebcamModule.toggleWebcam(2)"
+                      style="font-size:12px; padding:6px 12px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25);">
+                      <i class="bi bi-camera-video-fill"></i> Start Browser Webcam
+                    </button>
+                    <span class="text-muted-c" id="webcam-status-2" style="font-size:11px;">Inactive</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quad view (4 cameras in 2x2 grid) -->
+          <div id="container-quad-view" class="row g-3" style="display:none;">
+            <!-- Quad Slot 1 -->
+            <div class="col-md-6">
+              <div class="glass-card">
+                <div class="card-header-mini d-flex justify-content-between align-items-center p-2 px-3 border-bottom">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted-c" style="font-size:11px; font-weight:600;">Quad 1:</span>
+                    <select class="cam-select" id="quad1-cam-select"
+                      onchange="App.onQuadSelectChange(1, this.value)"></select>
+                  </div>
+                  <span class="cam-badge live py-1 px-2" style="font-size:10px;"><span class="cam-live-dot"></span>
+                    LIVE</span>
+                </div>
+                <div class="camera-feed" style="aspect-ratio:16/9;">
+                  <img id="quad1-img" src="" alt="Quad 1" />
+                </div>
+              </div>
+            </div>
+            <!-- Quad Slot 2 -->
+            <div class="col-md-6">
+              <div class="glass-card">
+                <div class="card-header-mini d-flex justify-content-between align-items-center p-2 px-3 border-bottom">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted-c" style="font-size:11px; font-weight:600;">Quad 2:</span>
+                    <select class="cam-select" id="quad2-cam-select"
+                      onchange="App.onQuadSelectChange(2, this.value)"></select>
+                  </div>
+                  <span class="cam-badge live py-1 px-2" style="font-size:10px;"><span class="cam-live-dot"></span>
+                    LIVE</span>
+                </div>
+                <div class="camera-feed" style="aspect-ratio:16/9;">
+                  <img id="quad2-img" src="" alt="Quad 2" />
+                </div>
+              </div>
+            </div>
+            <!-- Quad Slot 3 -->
+            <div class="col-md-6">
+              <div class="glass-card">
+                <div class="card-header-mini d-flex justify-content-between align-items-center p-2 px-3 border-bottom">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted-c" style="font-size:11px; font-weight:600;">Quad 3:</span>
+                    <select class="cam-select" id="quad3-cam-select"
+                      onchange="App.onQuadSelectChange(3, this.value)"></select>
+                  </div>
+                  <span class="cam-badge live py-1 px-2" style="font-size:10px;"><span class="cam-live-dot"></span>
+                    LIVE</span>
+                </div>
+                <div class="camera-feed" style="aspect-ratio:16/9;">
+                  <img id="quad3-img" src="" alt="Quad 3" />
+                </div>
+              </div>
+            </div>
+            <!-- Quad Slot 4 -->
+            <div class="col-md-6">
+              <div class="glass-card">
+                <div class="card-header-mini d-flex justify-content-between align-items-center p-2 px-3 border-bottom">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted-c" style="font-size:11px; font-weight:600;">Quad 4:</span>
+                    <select class="cam-select" id="quad4-cam-select"
+                      onchange="App.onQuadSelectChange(4, this.value)"></select>
+                  </div>
+                  <span class="cam-badge live py-1 px-2" style="font-size:10px;"><span class="cam-live-dot"></span>
+                    LIVE</span>
+                </div>
+                <div class="camera-feed" style="aspect-ratio:16/9;">
+                  <img id="quad4-img" src="" alt="Quad 4" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 14-Channel multi-camera grid view -->
+          <div id="container-all14-view" style="display:none;">
+            <div class="camera-grid-14" id="all14-grid-container">
+              <!-- Dynamically populated with all 14 cameras -->
+            </div>
+          </div>
+
+          <!-- AI Detection Info -->
+          <div class="row g-4 mt-1">
+            <div class="col-12">
+              <div class="glass-card">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-cpu-fill text-primary-c"></i> AI Engine Status</h6>
+                </div>
+                <div class="card-body-custom">
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <div class="summary-stat">
+                        <div class="s-value text-success-c">YOLOv8</div>
+                        <div class="s-label">Detection Model</div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="summary-stat">
+                        <div class="s-value text-primary-c">EasyOCR</div>
+                        <div class="s-label">OCR Engine</div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="summary-stat">
+                        <div class="s-value" style="color:#fbbf24;">30 FPS</div>
+                        <div class="s-label">Processing Speed</div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="summary-stat">
+                        <div class="s-value text-success-c">97.2%</div>
+                        <div class="s-label">Avg Accuracy</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Detection log -->
+        <section id="section-detection" class="page-section">
+
+          <div class="section-title">
+            <h5><i class="bi bi-card-checklist"></i> Parking Movement Log</h5>
+            <div class="d-flex align-items-center gap-2">
+              <span id="live-count-badge2" class="system-status" style="font-size:12px;">
+                <div class="status-dot"></div> Live Gate Monitoring Active
+              </span>
+            </div>
+          </div>
+
+          <!-- Filter & Search Controls -->
+          <div class="glass-card mb-3 p-3">
+            <div class="row g-3 align-items-center">
+              <div class="col-md-5">
+                <div class="input-group">
+                  <span class="input-group-text"
+                    style="background:rgba(255,255,255,0.06);border-color:var(--border);color:var(--text-muted);"><i
+                      class="bi bi-search"></i></span>
+                  <input type="text" id="plate-search-input" class="form-control"
+                    placeholder="Search plate (e.g. Dhaka Metro, 11-2234)..."
+                    style="background:rgba(255,255,255,0.04);border-color:var(--border);color:#fff;"
+                    oninput="DetectionTableModule && DetectionTableModule.filterByPlate && DetectionTableModule.filterByPlate(this.value)">
+                </div>
+              </div>
+              <div class="col-md-7 d-flex justify-content-md-end gap-2 flex-wrap">
+                <button class="btn btn-sm btn-outline-primary active" id="filter-btn-all"
+                  onclick="DetectionTableModule && DetectionTableModule.setStatusFilter && DetectionTableModule.setStatusFilter('ALL')">All
+                  Vehicles</button>
+                <button class="btn btn-sm btn-outline-success" id="filter-btn-parked"
+                  onclick="DetectionTableModule && DetectionTableModule.setStatusFilter && DetectionTableModule.setStatusFilter('PARKED')"><i
+                    class="bi bi-p-square-fill me-1"></i> Parked Inside</button>
+                <button class="btn btn-sm btn-outline-secondary" id="filter-btn-exited"
+                  onclick="DetectionTableModule && DetectionTableModule.setStatusFilter && DetectionTableModule.setStatusFilter('EXITED')"><i
+                    class="bi bi-box-arrow-right me-1"></i> Exited</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="clearDetectionLogs()"><i class="bi bi-trash"></i>
+                  Clear Log</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Bar -->
+          <div class="row g-2 mb-4" id="summary-bar">
+            <!-- Rendered by dashboard.js -->
+          </div>
+
+          <!-- Full Detection Table -->
+          <div class="glass-card">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-list-check"></i> Monitored Parking Movements</h6>
+              <div class="d-flex gap-2 align-items-center">
+                <small style="color:var(--text-muted);font-size:11px;">Auto-refreshing every 2.5s</small>
+                <div
+                  style="width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse-dot 1.5s ease infinite;">
+                </div>
+              </div>
+            </div>
+            <div class="card-body-custom p-0">
+              <div class="detection-table-wrapper" style="max-height:600px;overflow-y:auto;">
+                <table class="detection-table">
+                  <thead>
+                    <tr>
+                      <th style="width:70px;">Photo</th>
+                      <th>Type</th>
+                      <th>Number Plate</th>
+                      <th>Entry Time</th>
+                      <th>Exit Time</th>
+                      <th>Stay Duration</th>
+                      <th>Bay / Slot</th>
+                      <th>Status</th>
+                      <th class="fee-col">Fee / Tariff</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detection-tbody-full">
+                    <!-- Mirror of main tbody — synced via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Parking Analytics -->
+        <section id="section-analytics" class="page-section">
+
+          <div class="section-title">
+            <h5><i class="bi bi-bar-chart-fill"></i> Parking Traffic & Occupancy Analytics</h5>
+            <small class="text-muted-c">Real-time AI-computed parking occupancy and traffic flow data</small>
+          </div>
+
+          <!-- Top Analytics Cards -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="stat-card" style="--stat-color:#10b981;--stat-icon-bg:rgba(16,185,129,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Total Movements Today</div>
+                  <div class="stat-value text-success-c" id="analytics-total-rev">0 Movements</div>
+                  <div class="stat-change up"><i class="bi bi-arrow-up-right"></i> +8.7% vs yesterday</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-card" style="--stat-color:#3b82f6;--stat-icon-bg:rgba(59,130,246,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Peak Occupancy Hour</div>
+                  <div class="stat-value" id="analytics-peak-rev">11:00 AM</div>
+                  <div class="stat-change up"><i class="bi bi-clock"></i> Highest traffic window</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-card" style="--stat-color:#f59e0b;--stat-icon-bg:rgba(245,158,11,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Average Stay Duration</div>
+                  <div class="stat-value" id="analytics-avg-rev">2h 45m</div>
+                  <div class="stat-change up"><i class="bi bi-hourglass-split"></i> Across all parking bays</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Hourly Traffic Bar -->
+            <div class="col-lg-8">
+              <div class="glass-card h-100">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-bar-chart-line-fill text-primary-c"></i> Hourly Parking Flow (Arrivals & Exits)
+                  </h6>
+                  <small class="text-muted-c">Color: 🔴 Peak &nbsp; 🟡 High &nbsp; 🔵 Normal</small>
+                </div>
+                <div class="card-body-custom">
+                  <div class="chart-container" style="height:300px;">
+                    <canvas id="chartHourly"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Distribution Doughnut -->
+            <div class="col-lg-4">
+              <div class="glass-card h-100">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-pie-chart-fill text-primary-c"></i> Vehicle Distribution</h6>
+                </div>
+                <div class="card-body-custom">
+                  <canvas id="chartDistribution" height="280"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hourly Traffic Trend Line -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="glass-card">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-graph-up text-success-c"></i> Parking Flow Trend — Today vs Yesterday</h6>
+                  <small class="text-muted-c">Hourly vehicle traffic volume comparison</small>
+                </div>
+                <div class="card-body-custom">
+                  <div class="chart-container" style="height:260px;">
+                    <canvas id="chartRevenueTrend"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Overstay & Facility Monitoring -->
+        <section id="section-fraud" class="page-section">
+
+          <div class="section-title">
+            <h5><i class="bi bi-shield-exclamation"></i> Overstay & Parking Facility Monitoring</h5>
+            <small class="text-warning-c"><i class="bi bi-clock-history"></i> Real-time Overstay Tracking</small>
+          </div>
+
+          <!-- Alert Banner -->
+          <div id="fraud-alert-banner" class="fraud-alert-banner mb-4">
+            <!-- Rendered by fraud.js -->
+          </div>
+
+          <!-- Summary Cards -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-3">
+              <div class="stat-card" style="--stat-color:#ef4444;--stat-icon-bg:rgba(239,68,68,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Overstay Vehicles (&gt;12h)</div>
+                  <div class="stat-value text-danger-c" id="fraud-leakage-amount">0</div>
+                  <div class="stat-change down"><i class="bi bi-arrow-down-right"></i> Time limit exceeded</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card" style="--stat-color:#f59e0b;--stat-icon-bg:rgba(245,158,11,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Facility Occupancy</div>
+                  <div class="stat-value" id="fraud-leakage-pct" style="color:#fbbf24;">20%</div>
+                  <div class="stat-change down">150 Bays Capacity</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-percent"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card" style="--stat-color:#94a3b8;--stat-icon-bg:rgba(148,163,184,0.1);">
+                <div class="stat-info">
+                  <div class="stat-label">Total Departures</div>
+                  <div class="stat-value text-secondary-c" id="fraud-operator-total">0</div>
+                  <div class="stat-change">Completed stays</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-box-arrow-right"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card" style="--stat-color:#3b82f6;--stat-icon-bg:rgba(59,130,246,0.15);">
+                <div class="stat-info">
+                  <div class="stat-label">Currently Parked</div>
+                  <div class="stat-value text-primary-c" id="fraud-ai-total">0</div>
+                  <div class="stat-change up">Active bays occupied</div>
+                </div>
+                <div class="stat-icon"><i class="bi bi-p-square-fill"></i></div>
+                <div class="stat-glow"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comparison Table -->
+          <div id="fraud-comparison-table">
+            <!-- Rendered by fraud.js -->
+          </div>
+
+          <!-- Recommendation -->
+          <div class="glass-card mt-4">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-lightbulb-fill" style="color:#fbbf24;"></i> Facility Action Recommendations</h6>
+            </div>
+            <div class="card-body-custom">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div
+                    style="display:flex;gap:12px;padding:12px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:8px;">
+                    <span style="font-size:22px;">🚨</span>
+                    <div>
+                      <div style="font-weight:600;color:#f87171;font-size:13px;margin-bottom:4px;">High Priority Notice
+                      </div>
+                      <div style="font-size:12px;color:var(--text-secondary);">Conduct physical bay verification for
+                        vehicles parked over 12 hours without exit record. Verify plate registration in parking
+                        database.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div
+                    style="display:flex;gap:12px;padding:12px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);border-radius:8px;">
+                    <span style="font-size:22px;">🔍</span>
+                    <div>
+                      <div style="font-weight:600;color:#fbbf24;font-size:13px;margin-bottom:4px;">Gate Surveillance
+                      </div>
+                      <div style="font-size:12px;color:var(--text-secondary);">Cross-verify entry gate ANPR scan
+                        timestamps with active parked sessions. Ensure automated gate barriers synchronize with ANPR
+                        status.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Toll & Tariff Rates Management -->
+        <section id="section-rates" class="page-section">
+
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+            <div>
+              <h5
+                style="margin: 0; font-size: 18px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                <i class="bi bi-cash-coin text-warning"></i> Toll & Parking Tariff Management
+              </h5>
+              <small class="text-muted-c">Manual Configuration Mode — Fees are not preset. Type rates manually below or
+                leave blank for free passage.</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-success d-flex align-items-center gap-1"
+                onclick="RatesModule.addCustomCategory()"
+                style="border-radius: 8px; font-size: 12px; padding: 6px 14px;">
+                <i class="bi bi-plus-circle"></i> Add Vehicle Category
+              </button>
+              <button class="btn btn-sm btn-primary d-flex align-items-center gap-1"
+                onclick="RatesModule.saveAllRates()" style="border-radius: 8px; font-size: 12px; padding: 6px 14px;">
+                <i class="bi bi-save2"></i> Save All Tariffs
+              </button>
+              <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1"
+                onclick="RatesModule.clearAllRates()" style="border-radius: 8px; font-size: 12px; padding: 6px 12px;"
+                title="Reset all rates to empty">
+                <i class="bi bi-trash"></i> Empty All
+              </button>
+            </div>
+          </div>
+
+          <!-- Tariff Mode Notice Banner -->
+          <div class="glass-card mb-4 p-3"
+            style="border-left: 4px solid #f59e0b; background: rgba(245, 158, 11, 0.04);">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+              <div id="tariffs-summary-text" class="d-flex align-items-center">
+                <span class="badge bg-warning-subtle text-warning me-2"><i class="bi bi-pencil-square"></i> Manual Mode
+                  Active</span>
+                All rates are currently empty. Enter fees manually as needed or leave blank.
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Changes saved locally in real-time
+              </div>
+            </div>
+          </div>
+
+          <!-- Tariffs Table -->
+          <div class="glass-card">
+            <div class="card-header-custom d-flex align-items-center justify-content-between">
+              <h6 style="margin: 0; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                <i class="bi bi-table text-primary"></i> Vehicle Classification & Manual Fee Schedule
+              </h6>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 11px;">
+                Currency: BDT (৳)
+              </span>
+            </div>
+            <div class="table-responsive">
+              <table class="table custom-table table-hover mb-0" id="tariffs-table">
+                <thead>
+                  <tr>
+                    <th style="width: 45px; text-align: center;">Icon</th>
+                    <th>Vehicle Category</th>
+                    <th style="width: 220px;">Manual Fee Amount (৳)</th>
+                    <th>Status</th>
+                    <th class="text-end" style="width: 140px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tariffs-table-body">
+                  <!-- Rendered dynamically by RatesModule.renderTable() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Operational Info Cards -->
+          <div class="row g-3 mt-2">
+            <div class="col-md-4">
+              <div class="glass-card p-3 h-100">
+                <div class="d-flex align-items-center gap-2 mb-2 text-primary"
+                  style="font-size: 13px; font-weight: 600;">
+                  <i class="bi bi-pencil-fill"></i> Manual On-Demand Input
+                </div>
+                <p style="font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.5;">
+                  Enter custom toll tariffs per vehicle category. If a fee is left blank, it is treated as free passage
+                  or pending manual cashier collection.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card p-3 h-100">
+                <div class="d-flex align-items-center gap-2 mb-2 text-success"
+                  style="font-size: 13px; font-weight: 600;">
+                  <i class="bi bi-lightning-charge-fill"></i> Instant Synchronization
+                </div>
+                <p style="font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.5;">
+                  Clicking "Apply" immediately updates the active tariff for that vehicle category across the dashboard,
+                  reports, and movement log.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card p-3 h-100">
+                <div class="d-flex align-items-center gap-2 mb-2 text-warning"
+                  style="font-size: 13px; font-weight: 600;">
+                  <i class="bi bi-shield-check"></i> Discrepancy Protection
+                </div>
+                <p style="font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.5;">
+                  AI vehicle classification cross-checks the physical vehicle type against the charged tariff to prevent
+                  cashier classification errors.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: Reports and export -->
+        <section id="section-reports" class="page-section">
+
+          <div class="section-title">
+            <h5><i class="bi bi-file-earmark-bar-graph-fill"></i> Reports & Export</h5>
+            <div class="d-flex gap-2">
+              <button class="export-btn export-pdf" onclick="ReportsModule.exportPDF()">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Export PDF
+              </button>
+              <button class="export-btn export-excel" onclick="ReportsModule.exportExcel()">
+                <i class="bi bi-file-earmark-excel-fill"></i> Export Excel
+              </button>
+            </div>
+          </div>
+
+          <!-- Report Type Tabs -->
+          <div class="report-type-tabs">
+            <button class="report-tab active" id="tab-daily" onclick="ReportsModule.setReportType('daily')">
+              <i class="bi bi-calendar-day"></i> Daily
+            </button>
+            <button class="report-tab" id="tab-slot" onclick="ReportsModule.setReportType('slot')">
+              <i class="bi bi-clock-history"></i> 8-Hour Shift / Slot
+            </button>
+            <button class="report-tab" id="tab-weekly" onclick="ReportsModule.setReportType('weekly')">
+              <i class="bi bi-calendar-week"></i> Weekly
+            </button>
+            <button class="report-tab" id="tab-monthly" onclick="ReportsModule.setReportType('monthly')">
+              <i class="bi bi-calendar-month"></i> Monthly
+            </button>
+          </div>
+
+          <!-- Shift & Slot Filter Control Panel -->
+          <div class="glass-card mb-4" id="slot-filter-panel">
+            <div class="card-body-custom py-3">
+              <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                  <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:var(--text-secondary);">
+                    <i class="bi bi-calendar-event me-1"></i> Select Date
+                  </label>
+                  <input type="date" id="report-date-input" class="form-control form-control-sm"
+                    style="background:rgba(15,23,42,0.8);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:var(--text-secondary);">
+                    <i class="bi bi-stopwatch me-1"></i> Shift Slot (8-Hour Duty)
+                  </label>
+                  <select id="report-slot-select" class="form-select form-select-sm"
+                    onchange="ReportsModule.onSlotSelectChange(this.value)"
+                    style="background:rgba(15,23,42,0.8);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                    <option value="slot1">Slot 1: Morning Shift (06:00 AM – 02:00 PM)</option>
+                    <option value="slot2" selected>Slot 2: Evening / Peak Shift (02:00 PM – 10:00 PM)</option>
+                    <option value="slot3">Slot 3: Night Shift (10:00 PM – 06:00 AM)</option>
+                    <option value="custom">Custom Time Slot (Specific Hours)</option>
+                  </select>
+                </div>
+                <div class="col-md-3" id="custom-time-group" style="display:none;">
+                  <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:var(--text-secondary);">
+                    <i class="bi bi-clock me-1"></i> Start & End Time
+                  </label>
+                  <div class="d-flex gap-2">
+                    <input type="time" id="report-start-time" value="14:00" class="form-control form-control-sm"
+                      style="background:rgba(15,23,42,0.8);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                    <input type="time" id="report-end-time" value="22:00" class="form-control form-control-sm"
+                      style="background:rgba(15,23,42,0.8);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-sm btn-primary w-100 py-1" onclick="ReportsModule.applySlotFilter()"
+                    style="font-weight:600;display:flex;align-items:center;justify-content:center;gap:5px;height:31px;">
+                    <i class="bi bi-funnel-fill"></i> Filter Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Title -->
+          <div class="glass-card mb-4">
+            <div class="card-body-custom">
+              <div class="d-flex align-items-center gap-3">
+                <div
+                  style="width:44px;height:44px;background:rgba(37,99,235,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
+                  📋</div>
+                <div>
+                  <div id="report-title" style="font-size:15px;font-weight:700;color:var(--text-primary);">Daily Parking
+                    Report</div>
+                  <div style="font-size:12px;color:var(--text-muted);">Smart Parking Facility · Generated by AI
+                    Monitoring System</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Stats -->
+          <div class="row g-3 mb-4" id="report-summary">
+            <!-- Rendered by reports.js -->
+          </div>
+
+          <!-- Movement Distribution by Type Chart -->
+          <div class="glass-card mb-4">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-bar-chart-fill text-success-c"></i> Parking Movements by Vehicle Type</h6>
+            </div>
+            <div class="card-body-custom">
+              <div class="chart-container" style="height:240px;">
+                <canvas id="chartRevenueByType"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Table -->
+          <div class="glass-card">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-table"></i> Detailed Report Data</h6>
+              <div class="d-flex gap-2">
+                <button class="export-btn export-pdf" onclick="ReportsModule.exportPDF()"
+                  style="font-size:11px;padding:5px 12px;">
+                  <i class="bi bi-file-pdf"></i> PDF
+                </button>
+                <button class="export-btn export-excel" onclick="ReportsModule.exportExcel()"
+                  style="font-size:11px;padding:5px 12px;">
+                  <i class="bi bi-file-excel"></i> Excel
+                </button>
+              </div>
+            </div>
+            <div class="card-body-custom p-0" id="report-table-container">
+              <!-- Rendered by reports.js -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Section: AI Video Inspector & Model Tester -->
+        <section id="section-inspector" class="page-section">
+          <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3 mb-4"
+            style="border-bottom: 1px solid var(--border);">
+            <div>
+              <h5 class="mb-1"><i class="bi bi-camera-reels-fill text-primary-c"></i> AI Video Inspector & Model
+                Verification</h5>
+              <small class="text-muted-c">Upload traffic video clips or test custom YOLO models and ANPR license plate
+                recognition</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+                <i class="bi bi-cpu-fill me-1"></i> YOLOv8 / YOLO11 SOTA Inference
+              </span>
+            </div>
+          </div>
+
+          <!-- Video Upload & Settings Control Box -->
+          <div class="glass-card mb-4">
+            <div class="card-header-custom">
+              <h6><i class="bi bi-sliders text-primary-c"></i> Inspection Setup & Model Configuration</h6>
+            </div>
+            <div class="card-body-custom">
+              <div class="row g-4">
+                <!-- Left: File Upload Dropzone -->
+                <div class="col-lg-6">
+                  <input type="file" id="video-file-input" accept="video/mp4,video/avi,video/mov,video/webm,video/mkv"
+                    style="display:none;">
+                  <div class="upload-dropzone h-100 d-flex flex-column justify-content-center align-items-center"
+                    id="video-dropzone">
+                    <div id="dropzone-default-content">
+                      <i class="bi bi-cloud-arrow-up-fill dropzone-icon"></i>
+                      <h6 style="font-weight:600; color:#f8fafc; margin-bottom:4px;">Drag & Drop Video File Here</h6>
+                      <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">Supports MP4, AVI, MOV, WebM (Max
+                        150MB)</p>
+                      <button type="button" class="btn btn-sm btn-primary px-3 py-2"
+                        style="font-weight:600; border-radius:8px;">
+                        <i class="bi bi-folder2-open me-1"></i> Browse Video
+                      </button>
+                    </div>
+                    <div id="dropzone-selected-content" style="display:none; text-align:center;">
+                      <i class="bi bi-file-earmark-play-fill text-success"
+                        style="font-size:42px; margin-bottom:8px; display:inline-block;"></i>
+                      <div id="selected-file-label"
+                        style="font-size:14px; font-weight:700; color:#34d399; margin-bottom:10px;">traffic.mp4</div>
+                      <button type="button" class="btn btn-sm btn-outline-danger py-1 px-3"
+                        id="btn-clear-selected-video"
+                        onclick="event.stopPropagation(); InspectorModule.clearSelectedFile();">
+                        <i class="bi bi-x-circle me-1"></i> Change Video
+                      </button>
+                    </div>
+                  </div>
+                  <div class="mt-2 text-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-3"
+                      onclick="InspectorModule.useSampleVideo('traffic.mp4')"
+                      style="font-size:12px; border-radius:6px;">
+                      <i class="bi bi-film me-1"></i> Use Plaza Demo Video (traffic.mp4)
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Right: Inference & Model Parameters -->
+                <div class="col-lg-6">
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label" style="font-size:12px; font-weight:600; color:#cbd5e1;">Select YOLO
+                        Weight Model</label>
+                      <select class="form-select cam-select" id="inspect-model-select">
+                        <option value="best.pt">best.pt (Custom Fine-Tuned Model - 90%+ Target)</option>
+                        <option value="yolov8s.pt">yolov8s.pt (YOLOv8 Small Balanced)</option>
+                        <option value="yolov8n.pt">yolov8n.pt (YOLOv8 Nano Fast)</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label d-flex justify-content-between"
+                        style="font-size:12px; font-weight:600; color:#cbd5e1;">
+                        <span>Confidence Threshold</span>
+                        <span id="inspect-conf-val" style="color:#38bdf8;">0.20</span>
+                      </label>
+                      <input type="range" class="form-range" id="inspect-conf-input" min="0.10" max="0.80" step="0.05"
+                        value="0.20" oninput="document.getElementById('inspect-conf-val').textContent=this.value;">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label" style="font-size:12px; font-weight:600; color:#cbd5e1;">Frame
+                        Sampling</label>
+                      <select class="form-select cam-select" id="inspect-step-select">
+                        <option value="1">Every Frame (Full Detail)</option>
+                        <option value="2" selected>Every 2nd Frame (2x Speed)</option>
+                        <option value="3">Every 3rd Frame (3x Fast)</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label" style="font-size:12px; font-weight:600; color:#cbd5e1;">Max Inspection
+                        Frames</label>
+                      <input type="number" class="form-control" id="inspect-frames-input" value="300" min="50"
+                        max="1000"
+                        style="background:rgba(30,41,59,0.7); border:1px solid rgba(255,255,255,0.12); color:#fff; border-radius:8px;">
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center pt-3">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="inspect-ocr-toggle" checked
+                          style="accent-color:#10b981;">
+                        <label class="form-check-label" for="inspect-ocr-toggle"
+                          style="font-size:12.5px; font-weight:600; color:#cbd5e1;">
+                          Run ANPR Number Plate OCR
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-12 pt-2">
+                      <button type="button" class="btn btn-primary w-100 py-2" id="btn-run-inspection"
+                        onclick="InspectorModule.startVideoInspection()"
+                        style="font-weight:700; font-size:14px; border-radius:10px; background:linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow:0 4px 14px rgba(37,99,235,0.35);">
+                        <i class="bi bi-play-circle-fill me-2"></i>Run AI Model Analysis
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Animated Status Box -->
+              <div id="inspector-status-box" class="mt-4 p-3 rounded text-center"
+                style="display:none; background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:10px;">
+                <div class="spinner-border text-primary spinner-border-sm me-2" role="status"></div>
+                <span id="inspector-status-text" style="font-size:13px; font-weight:600; color:#93c5fd;">Processing
+                  video frames with YOLO & OCR...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inspection Results Panel -->
+          <div id="inspector-results-container" style="display:none;">
+            <!-- KPI Metric Cards -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-3">
+                <div class="stat-card" style="--stat-color:#3b82f6;--stat-icon-bg:rgba(59,130,246,0.15);">
+                  <div class="stat-info">
+                    <div class="stat-label">Total Vehicles Detected</div>
+                    <div class="stat-value text-primary-c" id="kpi-inspect-vehicles">0</div>
+                    <div class="stat-change up"><i class="bi bi-check-circle"></i> AI Model Verified</div>
+                  </div>
+                  <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
+                  <div class="stat-glow"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card" style="--stat-color:#10b981;--stat-icon-bg:rgba(16,185,129,0.15);">
+                  <div class="stat-info">
+                    <div class="stat-label">Plates Recognized</div>
+                    <div class="stat-value text-success-c" id="kpi-inspect-toll">0</div>
+                    <div class="stat-change up">ANPR OCR Engine</div>
+                  </div>
+                  <div class="stat-icon"><i class="bi bi-card-heading"></i></div>
+                  <div class="stat-glow"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card" style="--stat-color:#f59e0b;--stat-icon-bg:rgba(245,158,11,0.15);">
+                  <div class="stat-info">
+                    <div class="stat-label">Inference Speed</div>
+                    <div class="stat-value" id="kpi-inspect-fps" style="color:#fbbf24;">0 FPS</div>
+                    <div class="stat-change">Real-time processing</div>
+                  </div>
+                  <div class="stat-icon"><i class="bi bi-speedometer2"></i></div>
+                  <div class="stat-glow"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card" style="--stat-color:#a855f7;--stat-icon-bg:rgba(168,85,247,0.15);">
+                  <div class="stat-info">
+                    <div class="stat-label">Weights Applied</div>
+                    <div class="stat-value" id="kpi-inspect-model" style="color:#c084fc; font-size:20px;">best.pt</div>
+                    <div class="stat-change up">Confidence checked</div>
+                  </div>
+                  <div class="stat-icon"><i class="bi bi-cpu-fill"></i></div>
+                  <div class="stat-glow"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vehicle Distribution Chips -->
+            <div class="glass-card mb-4">
+              <div class="card-body-custom py-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span style="font-size:12px; font-weight:700; color:#cbd5e1;"><i
+                    class="bi bi-pie-chart-fill text-primary-c me-1"></i> Class Breakdown:</span>
+                <div class="d-flex align-items-center flex-wrap gap-2" id="inspector-breakdown-chips">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Playback & Detection Log Grid -->
+            <div class="row g-4">
+              <!-- Left: Annotated Video Output -->
+              <div class="col-lg-6">
+                <div class="glass-card h-100">
+                  <div class="card-header-custom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <h6 class="mb-0"><i class="bi bi-play-btn-fill text-danger-c"></i> Annotated Video Output</h6>
+                      <span class="badge" style="background:rgba(16,185,129,0.15); color:#34d399; font-size:11px;">AI
+                        Overlays</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <a id="inspector-video-download-btn" href="#" download="annotated_video.mp4"
+                        class="btn btn-sm btn-primary"
+                        style="display:none; font-size:12px; padding:4px 12px; border-radius:6px; font-weight:600;">
+                        <i class="bi bi-download me-1"></i> Download MP4
+                      </a>
+                      <a id="inspector-video-newtab-btn" href="#" target="_blank"
+                        class="btn btn-sm btn-outline-secondary"
+                        style="display:none; font-size:12px; padding:4px 10px; border-radius:6px;">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> Open
+                      </a>
+                    </div>
+                  </div>
+                  <div class="card-body-custom p-3">
+                    <div class="inspector-video-wrapper position-relative">
+                      <video id="inspector-video-player" controls loop playsinline preload="auto"
+                        style="width:100%; border-radius:8px; background:#000; display:block;">
+                        <source id="inspector-video-source" src="" type="video/mp4">
+                        Your browser does not support HTML5 video playback. Please click Download MP4 above.
+                      </video>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">
+                      <small class="text-muted-c" style="font-size:11.5px;">
+                        <i class="bi bi-info-circle me-1"></i> Video rendered with bounding boxes, vehicle
+                        classifications, and detected license plates.
+                      </small>
+                      <a id="inspector-video-direct-link" href="#" download="annotated_video.mp4" class="text-primary-c"
+                        style="display:none; font-size:12px; text-decoration:none; font-weight:500;">
+                        <i class="bi bi-cloud-arrow-down-fill me-1"></i> Direct File Link
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Detections Table -->
+              <div class="col-lg-6">
+                <div class="glass-card h-100">
+                  <div class="card-header-custom d-flex justify-content-between align-items-center">
+                    <h6><i class="bi bi-list-check text-primary-c"></i> Detected Vehicles & License Plates</h6>
+                    <small style="color:#94a3b8; font-size:11px;">Click timestamp to seek video</small>
+                  </div>
+                  <div class="card-body-custom p-0">
+                    <div class="detection-table-wrapper" style="max-height:480px; overflow-y:auto;">
+                      <table class="detection-table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Time</th>
+                            <th>Crop</th>
+                            <th>Class</th>
+                            <th>OCR Status</th>
+                            <th>Plate (ANPR)</th>
+                            <th>Confidence</th>
+                          </tr>
+                        </thead>
+                        <tbody id="inspector-detections-tbody">
+                          <!-- Populated by inspector.js -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: ANPR & Bangladeshi License Plate Lab -->
+        <section id="section-ocr-lab" class="page-section">
+          <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3 mb-4"
+            style="border-bottom: 1px solid var(--border);">
+            <div>
+              <h5 class="mb-1"><i class="bi bi-card-heading text-success-c"></i> ANPR & License Plate Laboratory</h5>
+              <small class="text-muted-c">BRTA standard vehicle number plate recognition (Bengali & English
+                transliteration engine)</small>
+            </div>
+            <span class="badge"
+              style="background:#064e3b; color:#ecfdf5; border:1px solid #10b981; font-family:monospace; font-size:12px; padding:6px 12px;">
+              ঢাকা মেট্রো-গ ১১-১২৩৪
+            </span>
+          </div>
+
+          <div class="row g-4">
+            <!-- Left: Direct Plate Tester -->
+            <div class="col-lg-6">
+              <div class="glass-card">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-camera-fill text-success-c"></i> Test Plate Recognition on Any Image</h6>
+                </div>
+                <div class="card-body-custom">
+                  <div class="upload-dropzone mb-3 text-center"
+                    onclick="document.getElementById('plate-test-input').click();">
+                    <input type="file" id="plate-test-input" accept="image/*" style="display:none;">
+                    <i class="bi bi-upc-scan dropzone-icon" style="color:#34d399;"></i>
+                    <h6 style="color:#f8fafc; font-weight:600;">Click to Upload Vehicle or Plate Image</h6>
+                    <p style="font-size:12px; color:#94a3b8; margin:0;">Upload JPEG / PNG image containing a Bangladeshi
+                      vehicle plate</p>
+                  </div>
+
+                  <div id="plate-ocr-result-box" class="p-3 rounded"
+                    style="display:none; background:rgba(15,23,42,0.8); border:1px solid rgba(16,185,129,0.3); border-radius:10px;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span style="font-size:12px; color:#94a3b8; font-weight:600;">Recognition Result:</span>
+                      <span id="plate-ocr-result-conf"
+                        class="badge bg-success-subtle text-success border border-success-subtle">92% Confidence</span>
+                    </div>
+                    <div class="text-center py-2">
+                      <img id="plate-ocr-preview-img" src="" alt="Uploaded Plate Preview"
+                        style="display:none; max-height:120px; max-width:100%; border-radius:6px; margin: 0 auto 10px auto; border:1px solid rgba(255,255,255,0.15); object-fit:contain;">
+                      <div id="plate-ocr-result-text" class="bd-plate-badge" style="font-size:18px; padding:8px 16px;">
+                        Dhaka Metro-Ga 11-2345
+                      </div>
+                    </div>
+                    <div class="mt-2 text-center">
+                      <small id="plate-ocr-result-raw"
+                        style="color:#94a3b8; font-size:11px; font-family:monospace;"></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: BRTA License Plate Structure Guide -->
+            <div class="col-lg-6">
+              <div class="glass-card h-100">
+                <div class="card-header-custom">
+                  <h6><i class="bi bi-info-circle-fill text-primary-c"></i> Bangladeshi BRTA Plate Standard
+                    Specification</h6>
+                </div>
+                <div class="card-body-custom">
+                  <div class="mb-3">
+                    <h6 style="font-size:13px; font-weight:700; color:#60a5fa; margin-bottom:6px;">Standard BRTA Plate
+                      Structure:</h6>
+                    <p style="font-size:12.5px; color:#cbd5e1; line-height:1.5; margin:0;">
+                      Bangladeshi vehicle plates follow a 2-line standardized format:
+                      <strong>[City / Metro Zone] [Class Letter] [Class-Code]-[Vehicle-Serial]</strong>
+                    </p>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-sm table-dark" style="font-size:12px; background:transparent;">
+                      <thead>
+                        <tr style="color:#94a3b8;">
+                          <th>Field</th>
+                          <th>Bengali</th>
+                          <th>Standard English</th>
+                          <th>Example</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Metro Zone</td>
+                          <td style="color:#34d399;">ঢাকা মেট্রো</td>
+                          <td>Dhaka Metro</td>
+                          <td>DHAKA METRO</td>
+                        </tr>
+                        <tr>
+                          <td>Vehicle Class</td>
+                          <td style="color:#34d399;">গ (Ga) / চ (Cha)</td>
+                          <td>Private / Microbus</td>
+                          <td>Ga / Cha</td>
+                        </tr>
+                        <tr>
+                          <td>Registration No</td>
+                          <td style="color:#34d399;">১১-২৩৪৫</td>
+                          <td>11-2345</td>
+                          <td>11-2345</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="p-2 rounded mt-2"
+                    style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); font-size:11.5px; color:#93c5fd;">
+                    <i class="bi bi-shield-check me-1"></i>
+                    The ANPR engine incorporates dual-layer processing: CLAHE contrast normalization, Bengali numeral
+                    transliteration (০-৯ to 0-9), and BRTA format verification.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dashboard Page Footer -->
+        <footer class="mt-5 py-3 text-center"
+          style="border-top: 1px solid rgba(255,255,255,0.06); color: var(--text-secondary); font-size: 12px;">
+          <div class="text-center">
+            <span>&copy; 2026 GatePulse AI. All rights reserved.</span>
+          </div>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Facility & Business Profile Settings -->
+  <div class="modal fade" id="facilityProfileModal" tabindex="-1" aria-labelledby="facilityProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content facility-modal-content">
+        <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding: 18px 24px;">
+          <div class="d-flex align-items-center gap-3">
+            <div
+              style="background: rgba(59,130,246,0.18); color: #60a5fa; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size:22px; border: 1px solid rgba(59,130,246,0.3);">
+              <i class="bi bi-buildings-fill"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="facilityProfileModalLabel" style="font-weight: 700; font-size: 18px;">
+                Facility & Business Profile Settings</h5>
+              <small style="color: #94a3b8; font-size: 12px;">Configure facility branding, presets & Free vs Paid
+                operation mode</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" style="padding: 22px 24px; max-height: 75vh; overflow-y: auto;">
+
+          <!-- 1-Click Quick Presets -->
+          <div class="mb-4">
+            <label
+              style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block;">
+              <i class="bi bi-lightning-charge-fill text-warning me-1"></i> 1-Click Quick Presets
+            </label>
+            <div class="row g-2">
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('hospital')">
+                  <div class="facility-preset-icon">🏥</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Hospital</div>
+                    <div style="font-size: 11px; color: #34d399;">Free Security Mode</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('corporate')">
+                  <div class="facility-preset-icon">🏢</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Corporate HQ</div>
+                    <div style="font-size: 11px; color: #34d399;">Free Employee Log</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('hotel')">
+                  <div class="facility-preset-icon">🏨</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Hotel & Resort</div>
+                    <div style="font-size: 11px; color: #34d399;">Guest & Valet Access</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('restaurant')">
+                  <div class="facility-preset-icon">🍽️</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Restaurant</div>
+                    <div style="font-size: 11px; color: #34d399;">Customer Parking</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('mall')">
+                  <div class="facility-preset-icon">🛍️</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Shopping Mall</div>
+                    <div style="font-size: 11px; color: #fbbf24;">Commercial Paid</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="facility-preset-card" onclick="App.applyFacilityPreset('parking')">
+                  <div class="facility-preset-icon">🅿️</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px; color: #f8fafc;">Paid Parking</div>
+                    <div style="font-size: 11px; color: #fbbf24;">Tariff Billing Mode</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border-color: rgba(255,255,255,0.08); margin: 20px 0;" />
+
+          <!-- Dual Operation Mode Selection -->
+          <div class="mb-4">
+            <label
+              style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block;">
+              <i class="bi bi-toggle-on text-primary me-1"></i> System Operation Mode
+            </label>
+            <div class="facility-mode-selector">
+              <div class="facility-mode-option selected-free" id="mode-opt-free"
+                onclick="App.selectFacilityMode('free')">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span style="font-size: 20px;">🟢</span>
+                  <span style="font-weight: 700; font-size: 14px; color: #34d399;">Free Security & Vehicle Log</span>
+                </div>
+                <p style="font-size: 11.5px; color: #94a3b8; margin: 0; line-height: 1.5;">
+                  For Hospitals, Corporate Offices, Hotels & Non-Commercial Gates. Pure security, entry/exit tracking,
+                  stay duration, and plate detection. No fee/toll calculations.
+                </p>
+              </div>
+
+              <div class="facility-mode-option" id="mode-opt-paid" onclick="App.selectFacilityMode('paid')">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span style="font-size: 20px;">🟡</span>
+                  <span style="font-weight: 700; font-size: 14px; color: #fbbf24;">Commercial Paid / Tariff Mode</span>
+                </div>
+                <p style="font-size: 11.5px; color: #94a3b8; margin: 0; line-height: 1.5;">
+                  For Commercial Parking, Shopping Malls & Highway Toll Plazas. Enables tariff billing, parking fees by
+                  vehicle type, and revenue tracking.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border-color: rgba(255,255,255,0.08); margin: 20px 0;" />
+
+          <!-- Custom Facility Details Form -->
+          <div class="row g-3">
+            <div class="col-md-7">
+              <label class="form-label" style="font-size: 12px; font-weight: 600; color: #cbd5e1;">Business / Facility
+                Name</label>
+              <div class="input-group">
+                <span class="input-group-text"
+                  style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #94a3b8;"><i
+                    class="bi bi-building"></i></span>
+                <input type="text" id="facility-name-input" class="form-control"
+                  placeholder="e.g. General Hospital, Corporate Tower, City Mall"
+                  style="background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.12); color: #fff;" />
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <label class="form-label" style="font-size: 12px; font-weight: 600; color: #cbd5e1;">Branding Icon</label>
+              <select id="facility-icon-select" class="form-select"
+                style="background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.12); color: #fff;">
+                <option value="🏥">🏥 Hospital & Medical Facility</option>
+                <option value="🏢">🏢 Corporate Office & Tower</option>
+                <option value="🏨">🏨 Hotel, Resort & Hospitality</option>
+                <option value="🍽️">🍽️ Restaurant & Dining</option>
+                <option value="🛍️">🛍️ Shopping Mall & Retail</option>
+                <option value="🅿️" selected>🅿️ Smart Parking Plaza</option>
+                <option value="🛣️">🛣️ Highway & Toll Plaza</option>
+                <option value="🎓">🎓 University & Campus</option>
+                <option value="✈️">✈️ Airport & Terminal</option>
+              </select>
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label" style="font-size: 12px; font-weight: 600; color: #cbd5e1;">Facility Subtitle /
+                Gate Location</label>
+              <input type="text" id="facility-sub-input" class="form-control"
+                placeholder="e.g. North Gate & Basement Parking, VIP & Visitor Entrance"
+                style="background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.12); color: #fff;" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" style="font-size: 12px; font-weight: 600; color: #cbd5e1;">Total Parking
+                Capacity (Slots)</label>
+              <input type="number" id="facility-capacity-input" class="form-control" min="1" max="5000" value="150"
+                style="background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.12); color: #fff;" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" style="font-size: 12px; font-weight: 600; color: #cbd5e1;">Overstay Alert
+                Threshold (Hours)</label>
+              <input type="number" id="facility-overstay-input" class="form-control" min="1" max="72" value="12"
+                style="background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.12); color: #fff;" />
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer d-flex justify-content-between align-items-center"
+          style="border-top: 1px solid rgba(255,255,255,0.08); padding: 16px 24px;">
+          <button type="button" class="btn btn-outline-secondary py-1 px-3" onclick="App.resetFacilityProfile()"
+            style="font-size: 13px; border-color: rgba(255,255,255,0.15); color: #cbd5e1;">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset to Default
+          </button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary py-1 px-3" data-bs-dismiss="modal"
+              style="font-size: 13px; background: rgba(255,255,255,0.08); border: none; color: #e2e8f0;">Cancel</button>
+            <button type="button" class="btn btn-primary py-1 px-4" onclick="App.saveFacilityModal()"
+              style="font-size: 13px; background: #2563eb; border: none; font-weight: 600;">
+              <i class="bi bi-check2-circle me-1"></i> Save & Apply Instantly
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: AI camera multi-select -->
+  <div class="modal fade" id="aiCameraModal" tabindex="-1" aria-labelledby="aiCameraModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content"
+        style="background: #0f172a; border: 1px solid rgba(148,163,184,0.2); border-radius: 16px; color: #f8fafc; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);">
+        <div class="modal-header" style="border-bottom: 1px solid rgba(148,163,184,0.15); padding: 16px 24px;">
+          <div class="d-flex align-items-center gap-3">
+            <div
+              style="background: rgba(168,85,247,0.2); color: #c084fc; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size:20px;">
+              <i class="bi bi-cpu-fill"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="aiCameraModalLabel" style="font-weight: 700; font-size: 17px;">Select AI
+                Detection Cameras (Multi-Select)</h5>
+              <small style="color: #94a3b8; font-size: 12px;">Choose which NVR cameras the YOLOv8 AI Engine will process
+                in real-time</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="padding: 20px 24px;">
+          <!-- Quick Presets -->
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-3"
+            style="border-bottom: 1px solid rgba(148,163,184,0.15);">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 600;">Presets:</span>
+              <button type="button" class="btn btn-sm py-1 px-2" onclick="App.aiSelectPreset('all')"
+                style="background:rgba(255,255,255,0.06); color:#e2e8f0; font-size: 11px; border:1px solid var(--border);">Select
+                All 14</button>
+              <button type="button" class="btn btn-sm py-1 px-2" onclick="App.aiSelectPreset('lanes')"
+                style="background:rgba(59,130,246,0.15); color:#60a5fa; font-size: 11px; border:1px solid rgba(59,130,246,0.3);">Gate
+                Lanes (1–4)</button>
+              <button type="button" class="btn btn-sm py-1 px-2" onclick="App.aiSelectPreset('inbound')"
+                style="background:rgba(16,185,129,0.15); color:#34d399; font-size: 11px; border:1px solid rgba(16,185,129,0.3);">Entry
+                Gates (1, 3)</button>
+              <button type="button" class="btn btn-sm py-1 px-2" onclick="App.aiSelectPreset('clear')"
+                style="background:rgba(239,68,68,0.15); color:#f87171; font-size: 11px; border:1px solid rgba(239,68,68,0.3);">Deselect
+                All</button>
+            </div>
+            <div>
+              <span class="badge" id="ai-modal-selected-badge"
+                style="background: rgba(168,85,247,0.2); color: #c084fc; border: 1px solid rgba(168,85,247,0.35); font-size: 12px; padding: 6px 12px;">
+                2 of 14 Selected
+              </span>
+            </div>
+          </div>
+
+          <!-- 14 Cameras Checkbox Grid -->
+          <div class="row g-2" id="ai-camera-checkbox-grid" style="max-height: 380px; overflow-y: auto;">
+            <!-- Generated dynamically by App.renderAiCameraModalGrid() -->
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between align-items-center"
+          style="border-top: 1px solid rgba(148,163,184,0.15); padding: 14px 24px;">
+          <div style="font-size: 11.5px; color: #94a3b8;">
+            <i class="bi bi-broadcast text-success-c me-1"></i> Changes sync immediately to AI Engine without restart
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary py-1 px-3" data-bs-dismiss="modal"
+              style="font-size: 13px; background: rgba(148,163,184,0.15); border: none; color: #e2e8f0;">Cancel</button>
+            <button type="button" class="btn btn-primary py-1 px-4" onclick="App.saveAiCameraModalSelection()"
+              style="font-size: 13px; background: #3b82f6; border: none; font-weight: 600;">
+              <i class="bi bi-check2-circle me-1"></i> Apply & Start AI
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- External scripts and libraries -->
+  <!-- Bootstrap 5 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <!-- jsPDF + AutoTable (PDF export) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <!-- SheetJS (Excel export) -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+  <!-- App Modules (order matters) -->
+  <script src="assets/js/data-generator.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/detection-table.js"></script>
+  <script src="assets/js/fraud.js"></script>
+  <script src="assets/js/rates.js"></script>
+  <script src="assets/js/reports.js"></script>
+  <script src="assets/js/webcam.js"></script>
+  <script src="assets/js/inspector.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <!-- Post-init extras -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set today's date
+      const dateEl = document.getElementById('today-date');
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString('en-BD', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+      }
+
+      // Sync full detection table (section 3) with the main tbody
+      const mainTbody = document.getElementById('detection-tbody');
+      const fullTbody = document.getElementById('detection-tbody-full');
+
+      if (mainTbody && fullTbody) {
+        fullTbody.innerHTML = mainTbody.innerHTML;
+        const observer = new MutationObserver(() => {
+          fullTbody.innerHTML = mainTbody.innerHTML;
+        });
+        observer.observe(mainTbody, { childList: true, subtree: true });
+      }
+
+      // Camera analytics
+      setTimeout(async () => {
+        const d = window.AppData;
+        if (!d) return;
+
+        if (window.App && window.App.updateCameraStats) {
+          window.App.updateCameraStats();
+        }
+
+        // Analytics movement cards - fetch live data
+        try {
+          const statsResp = await fetch('/api/stats');
+          const stats = await statsResp.json();
+
+          const totalVehicles = stats.total_vehicles || stats.currently_parked || 0;
+          const peakHour = stats.peak_hour || '11:00 AM';
+          const avgDuration = stats.avg_duration_str || '2h 45m';
+
+          const arEl = document.getElementById('analytics-total-rev');
+          const prEl = document.getElementById('analytics-peak-rev');
+          const avgEl = document.getElementById('analytics-avg-rev');
+          if (arEl) arEl.textContent = totalVehicles.toLocaleString() + ' Vehicles';
+          if (prEl) prEl.textContent = peakHour;
+          if (avgEl) avgEl.textContent = avgDuration;
+        } catch (e) {
+          console.error('Failed to load analytics cards:', e);
+        }
+      }, 500);
+    });
+  </script>
+
+  <!-- Administrative login overlay -->
+  <div id="login-overlay">
+    <div class="login-card">
+      <div class="text-center">
+        <div class="login-brand-badge">
+          <i class="bi bi-shield-check"></i> Smart Parking Security Gateway
+        </div>
+        <div class="mb-3">
+          <i class="bi bi-p-square-fill text-primary" style="font-size: 42px;"></i>
+        </div>
+        <h2 class="login-title">GatePulse AI Portal Login</h2>
+        <p class="login-subtitle">Sign in with authorized administrator credentials</p>
+      </div>
+
+      <div id="login-error-alert" class="login-error-alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span id="login-error-text">Invalid email or password</span>
+      </div>
+
+      <form id="login-form">
+        <div class="login-input-group">
+          <label for="login-email">Email Address</label>
+          <div class="login-input-wrapper">
+            <i class="bi bi-envelope-fill input-icon"></i>
+            <input type="email" id="login-email" placeholder="name@domain.com" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="login-input-group">
+          <label for="login-password">Password</label>
+          <div class="login-input-wrapper">
+            <i class="bi bi-lock-fill input-icon"></i>
+            <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="login-toggle-pwd" id="login-toggle-pwd-btn" title="Show/Hide Password">
+              <i class="bi bi-eye" id="pwd-eye-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4" style="font-size: 13px;">
+          <label class="d-flex align-items-center gap-2" style="cursor: pointer; color: var(--text-secondary);">
+            <input type="checkbox" id="login-remember" checked style="accent-color: #3b82f6;">
+            Remember credentials
+          </label>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 11px;">Super
+            Admin</span>
+        </div>
+
+        <button type="submit" class="login-btn" id="login-submit-btn">
+          <span>Sign In to Dashboard</span>
+          <i class="bi bi-box-arrow-in-right"></i>
+        </button>
+
+        <div class="login-hint-badge">
+          <i class="bi bi-shield-lock-fill text-primary"></i>
+          <div>
+            Authorized personnel only. Protected by TLS and session tokens.
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

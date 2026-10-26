@@ -1,0 +1,56 @@
+# Environment configuration & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Python virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Binary weights and media archives
+*.pt
+*.pth
+*.onnx
+*.weights
+*.bin
+*.mp4
+*.avi
+*.mkv
+*.mov
+Archive.zip
+**/assets/img/vehicles/toll_plaza.png
+
+# Datasets and training artifacts
+archive/
+runs/
+
+# Local database and log files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+
+# Inspection and detection captures
+captured_vehicles/
+
+# IDE and Operating system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
